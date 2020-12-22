@@ -19,7 +19,6 @@ import kotlin.coroutines.suspendCoroutine
 class MapRepository @Inject constructor(
     private val retrofitServiceProvider: RetrofitServiceProvider
 ) {
-
     // pull the service in, run any business logic through here so that the view model is
     // simply requesting data at this point
 
@@ -31,10 +30,11 @@ class MapRepository @Inject constructor(
             }
 
             override fun onResponse(call: Call<ApiSite>, response: Response<ApiSite>) {
-                val tempList = response.body()?.map {
+                response.body()?.map {
                     Site(it.name, LatLng(it.lat, it.long))
+                }?.let {
+                    continuation.resume(Result.success(it))
                 }
-                continuation.resume(Result.success(tempList!!))
             }
         })
     }

@@ -17,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class AppModule {
+object AppModule {
 
     @Provides
     fun provideGson(): Gson = GsonBuilder().setLenient().create()
